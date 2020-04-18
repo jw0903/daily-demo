@@ -1,14 +1,19 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <!-- <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> -->
+      <!-- <HmButton msg="HMBUTTON"></HmButton> -->
+      <!-- <div class="test">TEST</div> -->
+      <!-- <hello-world></hello-world>
+      <hello-world></hello-world> -->
     </div>
     <router-view />
   </div>
 </template>
 
-<style>
+<style lang="scss">
+@import "./assets/common.scss";
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -19,6 +24,14 @@
 
 #nav {
   padding: 30px;
+  .test {
+    color: $myColor;
+    width: 250px;
+    height: 250px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    @include bg-image("./assets/logo.png");
+  }
 }
 
 #nav a {

@@ -1,31 +1,14 @@
 <template>
   <div class="hello">
-    <h1>撒发射点发生</h1>
-    <h2>{{ msg }}</h2>
-    <com1></com1>
+    <h1>{{ msg }}</h1>
   </div>
 </template>
 
 <script>
-import com1 from "./HelloWorld1";
 export default {
   name: "HelloWorld",
-  data() {
-    return {
-      childMsg: "来自子元素的呐喊"
-    };
-  },
-  mounted() {
-    // console.log(this.$root);
-    // this.$parent.test();
-    // console.log(this.$parent.parentMsg);
-  },
   props: {
     msg: String
-  },
-  inject: ["a"],
-  components: {
-    com1
   }
 };
 </script>

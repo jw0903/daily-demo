@@ -1,5 +1,5 @@
 {
-  "name": "daily-demo1",
+  "name": "daily-demo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,10 @@
   },
   "dependencies": {
     "core-js": "^3.6.4",
+    "sass": "^1.26.3",
+    "sass-loader": "^8.0.2",
     "vue": "^2.6.11",
+    "vue-card-slide": "^1.1.1",
     "vue-router": "^3.1.5",
     "vuex": "^3.1.2"
   },
