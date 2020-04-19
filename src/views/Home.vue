@@ -18,15 +18,14 @@
           </div> -->
         </stack>
       </div>
-      <img
-        @touchmove.stop.capture.prevent="touchmove"
-        @touchstart.stop.capture.prevent="touchstart"
-        @touchend.stop.capture.prevent="touchend"
-        @touchcancel.stop.capture.prevent="touchend"
-        class="test"
-        src="@/assets/1.png"
-        alt="test"
-      />
+      <div class="controls">
+        <button @click="prev" class="button">
+          <i class="prev"></i><span class="text-hidden">prev</span>
+        </button>
+        <button @click="next" class="button">
+          <i class="next"></i><span class="text-hidden">next</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -40,20 +39,20 @@ export default {
     return {
       someList: [],
       stackinit: {
-        visible: 3
+        visible: 4
       },
       imgList: [
         {
-          imgUrl: "http://192.168.31.95:8082/1.png"
+          imgUrl: "http://192.168.2.105:8082/1.png"
         },
         {
-          imgUrl: "http://192.168.31.95:8082/2.png"
+          imgUrl: "http://192.168.2.105:8082/2.png"
         },
         {
-          imgUrl: "http://192.168.31.95:8082/3.png"
+          imgUrl: "http://192.168.2.105:8082/3.png"
         },
         {
-          imgUrl: "http://192.168.31.95:8082/logo.png"
+          imgUrl: "http://192.168.2.105:8082/logo.png"
         }
       ]
     };
@@ -62,65 +61,48 @@ export default {
     setTimeout(() => {
       this.someList = [
         {
-          html: '<img src="http://192.168.31.95:8082/1.png" alt="01">'
+          html: '<img src="http://192.168.2.105:8082/blue.png" alt="01">'
         },
         {
-          html: '<img src="http://192.168.31.95:8082/2.png" alt="02">'
+          html: '<img src="http://192.168.2.105:8082/red.png" alt="02">'
         },
         {
-          html: '<img src="http://192.168.31.95:8082/3.png" alt="03">'
+          html: '<img src="http://192.168.2.105:8082/yellow.png" alt="03">'
         },
         {
-          html: '<img src="http://192.168.31.95:8082/logo.png" alt="04">'
+          html: '<img src="http://192.168.2.105:8082/green.png" alt="04">'
+        },
+        {
+          html: '<img src="http://192.168.2.105:8082/black.png" alt="04">'
+        },
+        {
+          html: '<img src="http://192.168.2.105:8082/1.png" alt="04">'
         }
-        // {
-        //   html: '<img src="img/5.png" alt="05">'
-        // },
-        // {
-        //   html: '<img src="img/6.png" alt="06">'
-        // },
-        // {
-        //   html: '<img src="img/7.png" alt="07">'
-        // }
       ];
     }, 0);
-    console.log(this.someList);
   },
   mounted() {
     document.addEventListener("touchmove", e => {
       e.preventDefault();
     });
-    // let that = this;
-    // setTimeout(function() {
-    //   that.someList = [
-    //     {
-    //       html: '<img src="http://192.168.31.95:8082/1.png" alt="01">'
-    //     },
-    //     {
-    //       html: '<img src="http://192.168.31.95:8082/2.png" alt="02">'
-    //     },
-    //     {
-    //       html: '<img src="http://192.168.31.95:8082/3.png" alt="03">'
-    //     },
-    //     {
-    //       html: '<img src="http://192.168.31.95:8082/logo.png" alt="04">'
-    //     },
-    //     {
-    //       html: '<img src="img/5.png" alt="05">'
-    //     },
-    //     {
-    //       html: '<img src="img/6.png" alt="06">'
-    //     },
-    //     {
-    //       html: '<img src="img/7.png" alt="07">'
-    //     }
-    //   ];
-    // }, 2000);
   },
   methods: {
-    touchstart() {},
-    touchmove() {},
-    touchend() {},
+    prev() {
+      this.$refs.stack.$emit("prev");
+    },
+    next() {
+      this.$refs.stack.$emit("next");
+    },
+    runn() {
+      console.log(1);
+      let box = document.querySelector(".box");
+      box.innerHTML = "ZOOMING...";
+    },
+    endd() {
+      console.log(132);
+      let box = document.querySelector(".box");
+      box.innerHTML = "DONE...";
+    },
     sucEvent() {
       console.log("hhh");
     },
@@ -175,5 +157,29 @@ export default {
 }
 .test {
   width: 100px;
+}
+.box {
+  margin-left: 70px;
+  margin-top: 30px;
+  border-style: solid;
+  border-width: 1px;
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-color: #0000ff;
+  color: #ffffff;
+  padding: 20px;
+  font: bold 1.6em "Helvetica", "Arial", sans-serif;
+  -webkit-transition: width 2s, height 2s, background-color 2s,
+    -webkit-transform 2s, color 2s;
+  transition: width 2s, height 2s, background-color 2s, transform 2s, color 2s;
+  &::hover {
+    background-color: #ffcccc;
+    color: #000000;
+    width: 200px;
+    height: 200px;
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
 }
 </style>

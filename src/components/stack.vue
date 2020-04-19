@@ -32,7 +32,7 @@ export default {
     pages: {
       type: Array,
       // eslint-disable-next-line vue/require-valid-default-prop
-      default: {}
+      default: []
     }
   },
   data() {
@@ -187,6 +187,7 @@ export default {
     },
     nextTick() {
       // 记录最终滑动距离
+      console.log(this.pages);
       this.temporaryData.lastPosWidth = this.temporaryData.poswidth;
       this.temporaryData.lastPosHeight = this.temporaryData.posheight;
       this.temporaryData.lastRotate = this.temporaryData.rotate;
@@ -203,6 +204,7 @@ export default {
         this.temporaryData.opacity = 1;
         this.temporaryData.rotate = 0;
       });
+      console.log(this.pages);
     },
     onTransitionEnd(index) {
       let lastPage =
@@ -235,12 +237,18 @@ export default {
     next() {
       this.temporaryData.tracking = false;
       this.temporaryData.animation = true;
+      if (
+        this.pages.length < this.temporaryData.visible &&
+        this.temporaryData.visible > 1
+      ) {
+        this.temporaryData.visible--;
+      }
       // 计算划出后最终位置
       let width = this.$el.offsetWidth;
       this.temporaryData.poswidth = width;
       this.temporaryData.posheight = 0;
       this.temporaryData.opacity = 0;
-      this.temporaryData.rotate = "3";
+      this.temporaryData.rotate = "45";
       this.temporaryData.swipe = true;
       this.nextTick();
     },
@@ -259,8 +267,22 @@ export default {
       return ratio || 0;
     },
     inStack(index, currentPage) {
+      // 根据visible（当前显示卡片数量）
+      // 然后用stack根据传入的currentPage进行存放当前的page
+      /**
+       * visible:4
+       * pages.length: 6
+       * currentPage: 0
+       * 那么也就是说页面只显示4张卡片，由于currentPage是0，所以当前显示的4张卡片是0，1，2，3
+       * 当currentPage: 1, 4张卡片为 1,2,3,4
+       * 当currentPage: 2, 4张卡片为 2,3,4,5
+       * 当currentPage: 3, 4张卡片为 3,4,5,0 // 注意因为length为6，所以到5就结束了，得重头开始
+       */
       let stack = [];
       let visible = this.temporaryData.visible;
+      console.log(
+        `visible: ${visible}; temporaryData.visible: ${this.temporaryData.visible}`
+      );
       let length = this.pages.length;
       for (let i = 0; i < visible; i++) {
         if (currentPage + i < length) {
@@ -282,6 +304,7 @@ export default {
       if (index === this.temporaryData.currentPage) {
         return;
       }
+      // 判断当前页是否要显示，根据inStack来判断
       if (this.inStack(index, currentPage)) {
         let perIndex =
           index - currentPage > 0
@@ -298,7 +321,7 @@ export default {
           style[this.temporaryData.prefixes.transition + "TimingFunction"] =
             "ease";
           style[this.temporaryData.prefixes.transition + "Duration"] =
-            300 + "ms";
+            1500 + "ms";
         }
       } else if (index === lastPage) {
         style["transform"] =
@@ -316,7 +339,8 @@ export default {
         style["zIndex"] = this.temporaryData.lastZindex;
         style[this.temporaryData.prefixes.transition + "TimingFunction"] =
           "ease";
-        style[this.temporaryData.prefixes.transition + "Duration"] = 300 + "ms";
+        style[this.temporaryData.prefixes.transition + "Duration"] =
+          1500 + "ms";
       } else {
         style["zIndex"] = "-1";
         style["transform"] =
